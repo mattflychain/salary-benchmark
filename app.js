@@ -2,11 +2,9 @@
 const ZAPIER_WEBHOOK_URL = 'https://hooks.zapier.com/hooks/catch/24400971/ugkyxst/';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const zipcodeInput = document.getElementById('zipcode');
+    const stateSelect = document.getElementById('state-select');
     const cptInput = document.getElementById('cpt-code');
     const billingInput = document.getElementById('billing-amount');
-    const stateDetected = document.getElementById('state-detected');
-    const cptDropdown = document.getElementById('cpt-dropdown');
     const cptDescription = document.getElementById('cpt-description');
     const compareBtn = document.getElementById('compare-btn');
     const resultsSection = document.getElementById('results');
@@ -17,6 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailModal = document.getElementById('email-modal');
     const emailForm = document.getElementById('email-form');
     const emailInput = document.getElementById('email-input');
+
+    // Populate state dropdown
+    if (window.STATE_NAMES) {
+        Object.entries(window.STATE_NAMES)
+            .sort((a, b) => a[1].localeCompare(b[1]))
+            .forEach(([code, name]) => {
+                const option = document.createElement('option');
+                option.value = code;
+                option.textContent = name;
+                stateSelect.appendChild(option);
+            });
+    }
 
     let selectedState = null;
     let selectedCpt = null;
@@ -49,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
             email: email,
             timestamp: new Date().toISOString(),
             source: 'ABA Rate Benchmark Tool',
-            zipcode: zipcodeInput.value,
             state: selectedState,
             cptCode: selectedCpt,
             billingRate: billingInput.value,
@@ -71,13 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // State lookup from zipcode
-    function getStateFromZip(zip) {
-        if (zip.length < 3) return null;
-        const prefix = zip.substring(0, 3);
-        return ZIP_TO_STATE[prefix] || null;
-    }
-
     // Format currency
     function formatCurrency(amount) {
         return '$' + parseFloat(amount).toFixed(2);
@@ -85,36 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Validate form and enable button
     function validateForm() {
-        const zipValid = selectedState !== null;
+        const stateValid = selectedState !== null;
         const cptValid = selectedCpt !== null;
         const billingValid = parseFloat(billingInput.value) > 0;
-        compareBtn.disabled = !(zipValid && cptValid && billingValid);
+        compareBtn.disabled = !(stateValid && cptValid && billingValid);
     }
 
-    // Zipcode input handler
-    zipcodeInput.addEventListener('input', (e) => {
-        const value = e.target.value.replace(/\D/g, '');
-        e.target.value = value;
-
-        if (value.length >= 3) {
-            selectedState = getStateFromZip(value);
-            if (selectedState) {
-                const stateName = STATE_NAMES[selectedState] || selectedState;
-                stateDetected.textContent = `📍 ${stateName}`;
-                stateDetected.classList.add('visible');
-                zipcodeInput.classList.add('valid');
-                zipcodeInput.classList.remove('invalid');
-            } else {
-                stateDetected.textContent = 'State not found';
-                stateDetected.classList.add('visible');
-                zipcodeInput.classList.add('invalid');
-                zipcodeInput.classList.remove('valid');
-                selectedState = null;
-            }
+    // State select handler
+    stateSelect.addEventListener('change', (e) => {
+        selectedState = e.target.value;
+        if (selectedState) {
+            stateSelect.classList.add('valid');
         } else {
-            stateDetected.classList.remove('visible');
-            zipcodeInput.classList.remove('valid', 'invalid');
-            selectedState = null;
+            stateSelect.classList.remove('valid');
         }
         validateForm();
     });
@@ -255,14 +240,14 @@ document.addEventListener('DOMContentLoaded', () => {
             yourRateCard.classList.add('on-target');
             insightIcon.textContent = '✅';
             insightTitle.textContent = 'Market Efficient';
-            insightText.textContent = `Your contracted rate is within 5% of the ${stateName} industry benchmark. You're priced effectively for your market.`;
+            insightText.textContent = `Your contracted rate is within 5% of the ${stateName} industry benchmark. Your reimbursement rates are aligned with market benchmarks.`;
 
             // Emoji for marker - check for on target
             markerEmoji.textContent = '🎯';
 
             // CTA for average billers
             ctaHeadline.textContent = "💡 Great rates. How's your cash flow?";
-            ctaSubtext.textContent = "Even with competitive rates, generic accounting can mask inefficiencies. Flychain provides healthcare-specific financial clarity to keep your agency thriving.";
+            ctaSubtext.textContent = "Even with competitive rates, generic accounting can mask inefficiencies. Flychain provides healthcare-specific financial clarity to keep your practice thriving.";
         }
 
         // Show results, hide input
@@ -276,12 +261,11 @@ document.addEventListener('DOMContentLoaded', () => {
         inputCard.style.display = 'flex';
 
         // Reset form
-        zipcodeInput.value = '';
-        cptInput.value = '';
+        stateSelect.value = '';
         billingInput.value = '';
-        stateDetected.classList.remove('visible');
+
         cptDescription.textContent = 'Rates vary by carrier; showing state-level benchmarks.';
-        zipcodeInput.classList.remove('valid', 'invalid');
+        stateSelect.classList.remove('valid');
         cptInput.classList.remove('valid', 'invalid');
         selectedState = null;
         selectedCpt = null;

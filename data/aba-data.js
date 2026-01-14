@@ -44,16 +44,7 @@ const ABA_BENCHMARKS = {
         "baseRate": 12.35,
         "stateAverages": {}
     },
-    "0362T": {
-        "description": "Behavior Identification Assessment (Severe) (per 15 min)",
-        "baseRate": 32.50,
-        "stateAverages": {}
-    },
-    "0373T": {
-        "description": "Adaptive Behavior Treatment by Protocol (Severe) (per 15 min)",
-        "baseRate": 21.00,
-        "stateAverages": {}
-    }
+
 };
 
 // State Multipliers based on approximate cost of living / reimbursement variances

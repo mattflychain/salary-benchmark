@@ -19,7 +19,7 @@
         <header class="header header-centered">
             <a href="https://www.flychain.us/contact" target="_blank" rel="noopener noreferrer" class="header-brand">
                 <img src="flychain-logo-hq.png" alt="Flychain" class="flychain-logo-centered">
-                <span class="brand-subtitle">ABA Benchmark</span>
+                <span class="brand-subtitle">Contracted Rate Benchmark</span>
             </a>
         </header>
 
@@ -37,13 +37,15 @@
             <!-- Input Card -->
             <section class="input-card">
                 <div class="input-group">
-                    <label for="zipcode" class="input-label">
+                    <label for="state-select" class="input-label">
                         <span class="label-icon">📍</span>
-                        Agency Zipcode
+                        State
                     </label>
-                    <input type="text" id="zipcode" class="input-field" placeholder="e.g. 10001" maxlength="5"
-                        inputmode="numeric" autocomplete="postal-code">
-                    <div class="state-detected" id="state-detected"></div>
+                    <div class="cpt-input-wrapper">
+                        <select id="state-select" class="input-field select-field">
+                            <option value="" disabled selected>Select your state...</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="input-group">
@@ -62,8 +64,7 @@
                             <option value="97156">97156 - Parent Training</option>
                             <option value="97157">97157 - Group Parent Training</option>
                             <option value="97158">97158 - Group Supervision</option>
-                            <option value="0362T">0362T - Severe Assessment</option>
-                            <option value="0373T">0373T - Severe Treatment</option>
+
                         </select>
                     </div>
                     <div class="cpt-description" id="cpt-description">Rates vary by carrier; showing state-level
@@ -92,7 +93,7 @@
             <section class="results-section hidden" id="results">
                 <div class="results-card">
                     <div class="results-header">
-                        <h2 class="results-title">ABA Benchmark</h2>
+                        <h2 class="results-title">Contracted Rate Benchmark</h2>
                         <span class="results-state" id="results-state"></span>
                     </div>
 
@@ -118,7 +119,7 @@
                             <span class="comparison-value" id="your-rate">$0</span>
                         </div>
                         <div class="comparison-card state-avg">
-                            <span class="comparison-label">Benchmark Rate</span>
+                            <span class="comparison-label">Average Rate</span>
                             <span class="comparison-value" id="state-avg-value">$0</span>
                         </div>
                     </div>
