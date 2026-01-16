@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Compare your ABA agency's contracted rates against state averages. A tool for ABA providers to benchmark their pricing.">
-    <title>ABA Rate Benchmark | Flychain</title>
+        content="See if your ABA clinic is paying competitive salaries. Free salary benchmarks for BCBAs and RBTs.">
+    <title>ABA Salary Benchmark | Flychain</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,186 +19,217 @@
         <header class="header header-centered">
             <a href="https://www.flychain.us/contact" target="_blank" rel="noopener noreferrer" class="header-brand">
                 <img src="flychain-logo-hq.png" alt="Flychain" class="flychain-logo-centered">
-                <span class="brand-subtitle">Contracted Rate Benchmark</span>
+                <span class="brand-subtitle">Salary Benchmark</span>
             </a>
+            <!-- Settings Button -->
+            <button class="settings-btn" id="settings-btn" title="Settings">
+                ⚙️
+            </button>
         </header>
 
-        <!-- Hero Section -->
-        <main class="main">
-            <section class="hero">
-                <h1 class="hero-title">
-                    Are your <span class="highlight">ABA rates</span> competitive?
-                </h1>
-                <p class="hero-subtitle">
-                    Compare your agency's contracted rates against state benchmarks.
-                </p>
-            </section>
-
-            <!-- Input Card -->
-            <section class="input-card">
-                <div class="input-group">
-                    <label for="state-select" class="input-label">
-                        <span class="label-icon">📍</span>
-                        State
+        <!-- Settings Panel -->
+        <div class="settings-panel hidden" id="settings-panel">
+            <div class="settings-header">
+                <h3>A/B Testing Settings</h3>
+                <button class="settings-close" id="settings-close">✕</button>
+            </div>
+            <div class="settings-body">
+                <div class="setting-group">
+                    <label class="setting-label">CTA Copy Variant</label>
+                    <select id="copy-variant" class="setting-select">
+                        <option value="1">1: Direct Value (Custom Report)</option>
+                        <option value="2">2: Retention & Hiring</option>
+                        <option value="3">3: Margin Protection</option>
+                        <option value="4">4: Audit Hook</option>
+                        <option value="5">5: Data-Driven</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label class="setting-label">
+                        <input type="checkbox" id="show-range" checked>
+                        Show Range Bar
                     </label>
-                    <div class="cpt-input-wrapper">
-                        <select id="state-select" class="input-field select-field">
-                            <option value="" disabled selected>Select your state...</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="cpt-code" class="input-label">
-                        <span class="label-icon">🧩</span>
-                        Service Code (CPT)
-                    </label>
-                    <div class="cpt-input-wrapper">
-                        <select id="cpt-code" class="input-field select-field">
-                            <option value="" disabled selected>Select an ABA code...</option>
-                            <option value="97151">97151 - Assessment</option>
-                            <option value="97152">97152 - Support Assessment</option>
-                            <option value="97153">97153 - Direct Treatment (1:1)</option>
-                            <option value="97154">97154 - Group Treatment</option>
-                            <option value="97155">97155 - Supervision / Mod</option>
-                            <option value="97156">97156 - Parent Training</option>
-                            <option value="97157">97157 - Group Parent Training</option>
-                            <option value="97158">97158 - Group Supervision</option>
-
-                        </select>
-                    </div>
-                    <div class="cpt-description" id="cpt-description">Rates vary by carrier; showing state-level
-                        benchmarks.</div>
-                </div>
-
-                <div class="input-group">
-                    <label for="billing-amount" class="input-label">
-                        <span class="label-icon">💰</span>
-                        Your Contracted Rate (Per 15-Min Unit)
-                    </label>
-                    <div class="currency-input">
-                        <span class="currency-symbol">$</span>
-                        <input type="text" id="billing-amount" class="input-field input-currency" placeholder="0.00"
-                            inputmode="decimal">
-                    </div>
-                </div>
-
-                <button class="btn-primary" id="compare-btn" disabled>
-                    <span class="btn-text">Check Benchmarks</span>
-                    <span class="btn-icon">→</span>
-                </button>
-            </section>
-
-            <!-- Results Section -->
-            <section class="results-section hidden" id="results">
-                <div class="results-card">
-                    <div class="results-header">
-                        <div class="results-title-group">
-                            <h2 class="results-title">Rate Benchmark</h2>
-                            <div class="results-subtitle">
-                                <span id="results-cpt"></span> • <span id="results-state"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Comparison Cards -->
-                    <div class="comparison-cards three-up">
-                        <div class="comparison-card your-rate" id="your-rate-card">
-                            <span class="comparison-label">Your Rate</span>
-                            <span class="comparison-value" id="your-rate">$0</span>
-                            <span class="comparison-delta" id="rate-delta"></span>
-                        </div>
-                        <div class="comparison-card state-avg">
-                            <div class="label-with-tooltip">
-                                <span class="comparison-label">Median Rate</span>
-                                <div class="tooltip-wrapper">
-                                    <span class="tooltip-trigger">?</span>
-                                    <div class="tooltip-box">Median rates represent industry benchmarks. Actual
-                                        reimbursement varies by payer, contract terms, and specific service criteria.
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="comparison-value" id="state-avg-value">$0</span>
-                        </div>
-                        <div class="comparison-card highest-rate">
-                            <div class="label-with-tooltip">
-                                <span class="comparison-label">Top Rate</span>
-                                <div class="tooltip-wrapper">
-                                    <span class="tooltip-trigger">?</span>
-                                    <div class="tooltip-box">The highest contracted rate among ABA providers in your
-                                        state for this service code.</div>
-                                </div>
-                            </div>
-                            <span class="comparison-value" id="highest-rate-value">$0</span>
-                        </div>
-                    </div>
-
-                    <!-- Insight Card -->
-                    <div class="insight-card" id="insight-card">
-                        <div class="insight-icon-wrapper" id="insight-icon-wrapper">
-                            <span class="insight-icon" id="insight-icon">📊</span>
-                        </div>
-                        <div class="insight-content">
-                            <span class="insight-title" id="insight-title">Analysis</span>
-                            <span class="insight-text" id="insight-text">Enter your agency details to compare against
-                                industry data.</span>
-                        </div>
-                    </div>
-
-                    <!-- Flychain CTA Funnel -->
-                    <div class="flychain-cta" id="flychain-cta">
-                        <div class="cta-glow"></div>
-                        <div class="cta-content">
-                            <div class="cta-text">
-                                <span class="cta-headline" id="cta-headline">Financial control for your ABA
-                                    agency.</span>
-                                <span class="cta-subtext" id="cta-subtext">Join 100s of healthcare providers using
-                                    Flychain’s financial control tower for healthcare-specific bookkeeping, capital, and
-                                    CFO intelligence.</span>
-                            </div>
-                            <a href="https://www.flychain.us/contact" target="_blank" rel="noopener noreferrer"
-                                class="cta-button">
-                                <span>Book a Free Demo</span>
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <button class="btn-secondary" id="reset-btn">
-                        <span class="btn-icon">←</span>
-                        <span class="btn-text">Check Another Code</span>
-                    </button>
-                </div>
-            </section>
-        </main>
-
-        <!-- Email Gate Modal -->
-        <div class="email-modal-overlay hidden" id="email-modal">
-            <div class="email-modal">
-                <div class="email-modal-content">
-                    <h3 class="email-modal-title">🔓 Unlock Unlimited Benchmarks</h3>
-                    <p class="email-modal-text">Enter your email to continue analyzing your ABA rates.</p>
-                    <form id="email-form" class="email-form">
-                        <input type="email" id="email-input" class="email-input" placeholder="you@agency.com" required>
-                        <button type="submit" class="email-submit-btn">Continue</button>
-                    </form>
                 </div>
             </div>
         </div>
 
+        <main class="main">
+            <!-- Input Section -->
+            <section class="input-section" id="input-section">
+                <div class="hero">
+                    <h1 class="hero-title">
+                        Are you paying <span class="highlight">competitive salaries</span>?
+                    </h1>
+                    <p class="hero-subtitle">
+                        See how your staff compensation compares to market rates.
+                    </p>
+                </div>
+
+                <div class="input-card">
+                    <div class="input-group">
+                        <label for="state-select" class="input-label">
+                            <span class="label-icon">📍</span>
+                            Your State
+                        </label>
+                        <select id="state-select" class="input-field select-field">
+                            <option value="" disabled selected>Select your state...</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="role-select" class="input-label">
+                            <span class="label-icon">👤</span>
+                            Position to Compare
+                        </label>
+                        <select id="role-select" class="input-field select-field">
+                            <option value="" disabled selected>Select a position...</option>
+                            <option value="BCBA">BCBA - Board Certified Behavior Analyst</option>
+                            <option value="RBT">RBT - Registered Behavior Technician</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="experience-select" class="input-label">
+                            <span class="label-icon">⏱️</span>
+                            Experience Level
+                        </label>
+                        <select id="experience-select" class="input-field select-field">
+                            <option value="" disabled selected>Select experience level...</option>
+                            <option value="entry">Entry Level (&lt;1 year)</option>
+                            <option value="early">Early Career (1-4 years)</option>
+                            <option value="mid">Mid Career (5-9 years)</option>
+                            <option value="experienced">Experienced (10+ years)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="salary-input" class="input-label">
+                            <span class="label-icon">💰</span>
+                            What You're Paying (Annual)
+                        </label>
+                        <div class="currency-input">
+                            <span class="currency-symbol">$</span>
+                            <input type="text" id="salary-input" class="input-field input-currency" placeholder="65,000"
+                                inputmode="numeric">
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" id="compare-btn" disabled>
+                        <span class="btn-text">Compare to Market</span>
+                        <span class="btn-icon">→</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section hidden" id="results-section">
+                <!-- Verdict Card -->
+                <div class="verdict-card" id="verdict-card">
+                    <div class="verdict-icon" id="verdict-icon">💰</div>
+                    <div class="verdict-content">
+                        <h2 class="verdict-title" id="verdict-title">You're Paying Below Market</h2>
+                        <p class="verdict-text" id="verdict-text">Your salary is $5,000 below the typical rate for this
+                            role.</p>
+                    </div>
+                </div>
+
+                <!-- Comparison -->
+                <div class="comparison-section">
+                    <div class="comparison-row">
+                        <div class="comparison-item you-pay">
+                            <span class="comparison-label">You're Paying</span>
+                            <span class="comparison-value" id="you-pay-value">$60,000</span>
+                        </div>
+                        <div class="comparison-vs">vs</div>
+                        <div class="comparison-item market-rate">
+                            <span class="comparison-label">Market Rate</span>
+                            <span class="comparison-value" id="market-rate-value">$65,000</span>
+                        </div>
+                    </div>
+
+                    <!-- Range Bar -->
+                    <div class="range-section" id="range-section">
+                        <div class="range-bar-container">
+                            <div class="range-bar">
+                                <div class="range-segment range-low"></div>
+                                <div class="range-segment range-mid"></div>
+                                <div class="range-segment range-high"></div>
+                            </div>
+                            <div class="user-marker" id="user-marker">
+                                <div class="marker-label" id="marker-label">You</div>
+                                <div class="marker-line"></div>
+                                <div class="marker-dot"></div>
+                            </div>
+                        </div>
+                        <div class="range-labels">
+                            <span class="range-end" id="range-low">$55,000</span>
+                            <span class="range-end" id="range-high">$78,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Experience Levels Card -->
+                <div class="experience-card-container">
+                    <h2 class="section-title">Market Rates by Experience</h2>
+                    <div class="experience-grid" id="experience-grid">
+                        <div class="experience-card clickable" data-level="entry">
+                            <span class="exp-label">Entry Level</span>
+                            <span class="exp-years">&lt;1 year</span>
+                            <span class="exp-salary" id="exp-entry">$65,000</span>
+                        </div>
+                        <div class="experience-card clickable" data-level="early">
+                            <span class="exp-label">Early Career</span>
+                            <span class="exp-years">1-4 years</span>
+                            <span class="exp-salary" id="exp-early">$72,000</span>
+                        </div>
+                        <div class="experience-card clickable" data-level="mid">
+                            <span class="exp-label">Mid Career</span>
+                            <span class="exp-years">5-9 years</span>
+                            <span class="exp-salary" id="exp-mid">$85,000</span>
+                        </div>
+                        <div class="experience-card clickable" data-level="experienced">
+                            <span class="exp-label">Experienced</span>
+                            <span class="exp-years">10+ years</span>
+                            <span class="exp-salary" id="exp-experienced">$98,000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flychain CTA - Dynamic based on variant -->
+                <div class="cta-section">
+                    <div class="cta-card">
+                        <h3 class="cta-title" id="cta-title">📊 Get Your Custom Salary Benchmark Report</h3>
+                        <p class="cta-text" id="cta-text">
+                            Stop guessing. See exactly what local competitors are paying their RBTs and BCBAs right now.
+                        </p>
+                        <a href="https://www.flychain.us/contact" target="_blank" rel="noopener noreferrer"
+                            class="cta-button" id="cta-button">
+                            <span id="cta-button-text">Get My Report</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Back Button -->
+                <button class="btn-secondary" id="back-btn">
+                    <span class="btn-icon">←</span>
+                    <span class="btn-text">Compare Another Position</span>
+                </button>
+            </section>
+        </main>
+
         <!-- Footer -->
         <footer class="footer">
-            <p>Powered by <strong>Flychain</strong> • Industry benchmarks for ABA providers</p>
+            <p>Powered by <strong>Flychain</strong> • 2025 Salary Data</p>
         </footer>
     </div>
 
-    <script src="data/cpt-averages.js?v=2"></script>
-    <script src="data/aba-data.js?v=2"></script>
-    <script src="app.js?v=2"></script>
+    <script src="data/salary-data.js?v=5"></script>
+    <script src="app.js?v=8"></script>
 </body>
 
 </html>

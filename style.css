@@ -1613,3 +1613,1143 @@ body {
         transition-duration: 0.01ms !important;
     }
 }
+
+/* ========================================
+   PayScale-Style Salary Benchmark Styles 
+   ======================================== */
+
+/* Header - Compact with logo and title */
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 8px;
+}
+
+.flychain-logo {
+    height: 32px;
+    width: auto;
+}
+
+.header-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding-left: 12px;
+    border-left: 1px solid var(--border-light);
+}
+
+/* Selector Card */
+.selector-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    box-shadow: var(--card-shadow);
+}
+
+.selector-row {
+    display: flex;
+    gap: 16px;
+}
+
+.selector-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.selector-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.selector-field {
+    padding: 12px 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--primary-dark);
+    background: var(--background);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23858eb3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 40px;
+    transition: all var(--transition-fast);
+}
+
+.selector-field:focus {
+    outline: none;
+    border-color: var(--primary);
+    background-color: var(--white);
+}
+
+/* Salary Hero Section */
+.salary-hero {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: 28px 24px;
+    box-shadow: var(--card-shadow);
+    text-align: center;
+}
+
+.salary-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+}
+
+.salary-location {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+.salary-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+}
+
+.salary-amount {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.salary-period {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* Salary Range Bar */
+.range-section {
+    padding-top: 8px;
+}
+
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.range-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.range-label-center {
+    align-items: center;
+}
+
+.range-label:last-child {
+    align-items: flex-end;
+}
+
+.range-percentile {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.range-value {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+}
+
+.range-bar {
+    display: flex;
+    height: 12px;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.range-segment {
+    flex: 1;
+}
+
+.range-segment.range-low {
+    background: linear-gradient(90deg, #f4a261, #e9c46a);
+}
+
+.range-segment.range-mid {
+    background: linear-gradient(90deg, #e9c46a, #2a9d8f);
+}
+
+.range-segment.range-high {
+    background: linear-gradient(90deg, #2a9d8f, #264653);
+}
+
+/* Experience Section */
+.experience-section {
+    padding: 0;
+}
+
+.section-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 16px;
+}
+
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.experience-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+    transition: all var(--transition-fast);
+}
+
+.experience-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.exp-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+}
+
+.exp-years {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.exp-salary {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 4px;
+}
+
+/* Description Section */
+.description-section {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+}
+
+.description-text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+/* CTA Section */
+.cta-section {
+    padding: 0;
+}
+
+.cta-card {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: var(--radius-xl);
+    padding: 28px 24px;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.cta-text {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1a1a2e;
+    background: linear-gradient(135deg, #00d9ff 0%, #00b4d8 100%);
+    border: none;
+    border-radius: 100px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 217, 255, 0.3);
+}
+
+.cta-button svg {
+    transition: transform var(--transition-fast);
+}
+
+.cta-button:hover svg {
+    transform: translateX(4px);
+}
+
+/* Footer adjustments */
+.footer {
+    padding: 24px 0;
+    text-align: center;
+}
+
+.footer p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Mobile optimizations for new components */
+@media (max-width: 400px) {
+    .salary-amount {
+        font-size: 2.5rem;
+    }
+
+    .experience-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .experience-card {
+        padding: 14px 12px;
+    }
+
+    .exp-salary {
+        font-size: 1.1rem;
+    }
+
+    .range-value {
+        font-size: 0.85rem;
+    }
+}
+
+/* ========================================
+   Input Page Flow Styles
+   ======================================== */
+
+/* Section visibility */
+.input-section {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.input-section.hidden {
+    display: none;
+}
+
+.results-section {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.results-section.hidden {
+    display: none;
+}
+
+/* Your Position Card */
+.your-position-card {
+    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--white);
+    box-shadow: 0 8px 24px var(--primary-glow);
+}
+
+.position-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.position-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.position-level {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.position-salary {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.position-salary-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.position-salary-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+/* Selected experience card */
+.experience-card.selected {
+    border: 2px solid var(--primary);
+    background: rgba(106, 89, 255, 0.08);
+    position: relative;
+}
+
+.experience-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.experience-card.selected .exp-salary {
+    color: var(--primary);
+    font-weight: 800;
+}
+
+/* ========================================
+   User Salary & Interactive Elements
+   ======================================== */
+
+/* Input hint */
+.input-hint {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Range bar container for marker positioning */
+.range-bar-container {
+    position: relative;
+    padding-top: 32px;
+}
+
+/* User salary marker */
+.user-marker {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+    transition: left 0.3s ease;
+}
+
+.user-marker.hidden {
+    display: none;
+}
+
+.marker-label {
+    background: var(--primary-dark);
+    color: var(--white);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(17, 8, 35, 0.2);
+}
+
+.marker-line {
+    width: 3px;
+    height: 20px;
+    background: var(--primary-dark);
+    border-radius: 100px;
+}
+
+/* Your Salary Comparison Card */
+.your-salary-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    box-shadow: var(--card-shadow);
+    border-left: 4px solid var(--primary);
+}
+
+.your-salary-card.hidden {
+    display: none;
+}
+
+.salary-card-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.salary-card-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.salary-card-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.salary-card-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+.salary-card-right {
+    text-align: right;
+}
+
+.salary-card-delta {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+}
+
+.salary-card-delta.positive {
+    background: rgba(122, 196, 122, 0.15);
+    color: #3d8a3d;
+}
+
+.salary-card-delta.negative {
+    background: rgba(244, 99, 77, 0.12);
+    color: #c93b26;
+}
+
+.salary-card-delta.neutral {
+    background: rgba(106, 89, 255, 0.12);
+    color: var(--primary);
+}
+
+/* Clickable experience cards */
+.experience-card.clickable {
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.experience-card.clickable:hover {
+    border-color: var(--border-light);
+    transform: translateY(-3px);
+}
+
+/* Click hint */
+.click-hint {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+/* ========================================
+   Clinic Owner / Employer View Styles
+   ======================================== */
+
+/* Verdict Card */
+.verdict-card {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: var(--card-shadow);
+    border-left: 4px solid var(--text-muted);
+}
+
+.verdict-card.above {
+    border-left-color: #f0b800;
+    background: linear-gradient(135deg, rgba(240, 184, 0, 0.08) 0%, var(--white) 100%);
+}
+
+.verdict-card.below {
+    border-left-color: var(--accent-coral);
+    background: linear-gradient(135deg, rgba(244, 99, 77, 0.08) 0%, var(--white) 100%);
+}
+
+.verdict-card.competitive {
+    border-left-color: var(--accent-sage);
+    background: linear-gradient(135deg, rgba(122, 196, 122, 0.08) 0%, var(--white) 100%);
+}
+
+.verdict-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.verdict-content {
+    flex: 1;
+}
+
+.verdict-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    margin-bottom: 4px;
+}
+
+.verdict-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* Comparison Section */
+.comparison-section {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+}
+
+.comparison-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.comparison-item {
+    flex: 1;
+    text-align: center;
+    padding: 20px 16px;
+    border-radius: var(--radius-lg);
+    border: 2px solid transparent;
+}
+
+.comparison-item.you-pay {
+    background: linear-gradient(135deg, rgba(106, 89, 255, 0.12) 0%, rgba(139, 123, 255, 0.06) 100%);
+    border-color: rgba(106, 89, 255, 0.2);
+}
+
+.comparison-item.you-pay .comparison-value {
+    color: var(--primary);
+}
+
+.comparison-item.market-rate {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 180, 216, 0.04) 100%);
+    border-color: rgba(0, 217, 255, 0.2);
+}
+
+.comparison-item.market-rate .comparison-value {
+    color: #0096ab;
+}
+
+.comparison-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.comparison-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+}
+
+.comparison-vs {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--background);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Range labels at bottom */
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.range-end {
+    font-size: 0.8rem;
+}
+
+/* ========================================
+   Results Section Spacing Fix
+   ======================================== */
+
+.results-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.results-section .verdict-card {
+    margin-bottom: 0;
+}
+
+.results-section .comparison-section {
+    margin-bottom: 0;
+}
+
+.results-section .experience-section {
+    margin-bottom: 0;
+}
+
+.results-section .cta-section {
+    margin-top: 8px;
+}
+
+.results-section .btn-secondary {
+    margin-top: 8px;
+}
+
+/* Fix range bar container spacing */
+.range-bar-container {
+    position: relative;
+    padding-top: 40px;
+    margin-top: 8px;
+}
+
+/* Fix marker positioning */
+.user-marker {
+    position: absolute;
+    top: 4px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+    transition: left 0.3s ease;
+}
+
+.marker-label {
+    background: var(--primary-dark);
+    color: var(--white);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(17, 8, 35, 0.15);
+    margin-bottom: 4px;
+}
+
+.marker-line {
+    width: 2px;
+    height: 16px;
+    background: var(--primary-dark);
+    border-radius: 100px;
+}
+
+/* Range bar itself */
+.range-bar {
+    display: flex;
+    height: 10px;
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+/* Marker dot at bottom of line */
+.marker-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--primary-dark);
+    border-radius: 50%;
+    border: 2px solid var(--white);
+    box-shadow: 0 2px 6px rgba(17, 8, 35, 0.2);
+}
+
+/* Range labels spacing */
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* Comparison row spacing */
+.comparison-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* Experience Card Container */
+.experience-card-container {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+}
+
+.experience-card-container .section-title {
+    margin-bottom: 16px;
+    font-size: 1rem;
+    color: var(--primary-dark);
+}
+
+/* Experience grid spacing */
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* Colorful experience cards */
+.experience-card {
+    padding: 18px 16px;
+    border-radius: var(--radius-lg);
+    background: var(--background);
+    border: 2px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.experience-card[data-level="entry"] {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 180, 216, 0.03) 100%);
+    border-color: rgba(0, 217, 255, 0.15);
+}
+
+.experience-card[data-level="entry"] .exp-salary {
+    color: #0096ab;
+}
+
+.experience-card[data-level="early"] {
+    background: linear-gradient(135deg, rgba(122, 196, 122, 0.1) 0%, rgba(100, 180, 100, 0.04) 100%);
+    border-color: rgba(122, 196, 122, 0.2);
+}
+
+.experience-card[data-level="early"] .exp-salary {
+    color: #3d8a3d;
+}
+
+.experience-card[data-level="mid"] {
+    background: linear-gradient(135deg, rgba(240, 184, 0, 0.1) 0%, rgba(200, 150, 0, 0.04) 100%);
+    border-color: rgba(240, 184, 0, 0.2);
+}
+
+.experience-card[data-level="mid"] .exp-salary {
+    color: #b38600;
+}
+
+.experience-card[data-level="experienced"] {
+    background: linear-gradient(135deg, rgba(106, 89, 255, 0.1) 0%, rgba(139, 123, 255, 0.04) 100%);
+    border-color: rgba(106, 89, 255, 0.2);
+}
+
+.experience-card[data-level="experienced"] .exp-salary {
+    color: var(--primary);
+}
+
+/* ========================================
+   Percentile Badge
+   ======================================== */
+
+.percentile-badge-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--card-shadow);
+}
+
+.percentile-badge {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.percentile-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.ring-bg {
+    fill: none;
+    stroke: var(--background);
+    stroke-width: 8;
+}
+
+.ring-fill {
+    fill: none;
+    stroke: url(#percentile-gradient);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 339.292;
+    stroke-dashoffset: 339.292;
+    transition: stroke-dashoffset 1s ease-out;
+}
+
+/* Gradient definition via CSS */
+.ring-fill {
+    stroke: var(--primary);
+}
+
+.percentile-badge.top-tier .ring-fill {
+    stroke: var(--accent-sage);
+}
+
+.percentile-badge.mid-tier .ring-fill {
+    stroke: #f0b800;
+}
+
+.percentile-badge.low-tier .ring-fill {
+    stroke: var(--accent-coral);
+}
+
+.percentile-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
+}
+
+.percentile-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+}
+
+.percentile-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    line-height: 1.1;
+}
+
+.percentile-badge.top-tier .percentile-value {
+    color: #3d8a3d;
+}
+
+.percentile-badge.mid-tier .percentile-value {
+    color: #b38600;
+}
+
+.percentile-badge.low-tier .percentile-value {
+    color: #c93b26;
+}
+
+.percentile-sub {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.percentile-explanation {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 16px;
+    line-height: 1.5;
+}
+
+/* ========================================
+   Settings Panel
+   ======================================== */
+
+/* Settings button in header */
+.header-centered {
+    position: relative;
+}
+
+.settings-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.settings-btn:hover {
+    background: var(--background);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+/* Settings panel */
+.settings-panel {
+    position: fixed;
+    top: 80px;
+    right: 20px;
+    width: 300px;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(17, 8, 35, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+    animation: slideIn 0.2s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.settings-panel.hidden {
+    display: none;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--primary-dark);
+    color: var(--white);
+}
+
+.settings-header h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.settings-close {
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.settings-close:hover {
+    opacity: 1;
+}
+
+.settings-body {
+    padding: 20px;
+}
+
+.setting-group {
+    margin-bottom: 20px;
+}
+
+.setting-group:last-child {
+    margin-bottom: 0;
+}
+
+.setting-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    margin-bottom: 8px;
+}
+
+.setting-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+}
+
+.setting-select {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    background: var(--white);
+    color: var(--primary-dark);
+    cursor: pointer;
+}
+
+.setting-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+/* Range section hidden state */
+.range-section.hidden {
+    display: none;
+}
