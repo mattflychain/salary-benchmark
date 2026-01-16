@@ -9,6 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputSection = document.getElementById('input-section');
     const resultsSection = document.getElementById('results-section');
 
+    // Email Gate Elements
+    const emailGate = document.getElementById('email-gate');
+    const emailGateForm = document.getElementById('email-gate-form');
+    const blurContainer = document.getElementById('blur-container');
+    const userEmailInput = document.getElementById('user-email');
+
+    // National Averages (Benchmark data estimates)
+    const NATIONAL_AVERAGES = {
+        "BCBA": 85000,
+        "RBT": 48000
+    };
+
     // Settings elements
     const settingsBtn = document.getElementById('settings-btn');
     const settingsPanel = document.getElementById('settings-panel');
@@ -17,7 +29,58 @@ document.addEventListener('DOMContentLoaded', () => {
     const showRangeCheckbox = document.getElementById('show-range');
     const rangeSection = document.getElementById('range-section');
 
+    // Check if results are already unlocked
+    function checkUnlockStatus() {
+        if (localStorage.getItem('flychain_unlocked') === 'true') {
+            emailGate.classList.add('hidden');
+            blurContainer.classList.remove('blurred');
+        } else {
+            emailGate.classList.remove('hidden');
+            blurContainer.classList.add('blurred');
+        }
+    }
+
+    // Handle email submission
+    emailGateForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = userEmailInput.value;
+        if (email && email.includes('@')) {
+            localStorage.setItem('flychain_unlocked', 'true');
+            localStorage.setItem('flychain_user_email', email);
+
+            // Animate unlock
+            emailGate.classList.add('hidden');
+            blurContainer.classList.remove('blurred');
+
+            // Send to Zapier webhook
+            try {
+                const stateName = window.STATE_NAMES?.[currentState] || currentState;
+                await fetch('https://hooks.zapier.com/hooks/catch/24400971/ug0gnwg/', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        role: currentRole,
+                        state: stateName,
+                        stateCode: currentState,
+                        salary: currentSalary,
+                        experienceLevel: currentExperience,
+                        timestamp: new Date().toISOString(),
+                        source: 'salary-benchmark-tool'
+                    })
+                });
+                console.log("Email sent to Zapier:", email);
+            } catch (error) {
+                console.error("Failed to send to Zapier:", error);
+            }
+        }
+    });
+
     // CTA copy variants
+    // ... (rest of the variants remain the same)
     const ctaVariants = {
         1: {
             title: '📊 Get Your Custom Salary Benchmark Report',
@@ -165,23 +228,49 @@ document.addEventListener('DOMContentLoaded', () => {
             verdictCard.classList.add('above');
             verdictIcon.textContent = '📈';
             verdictTitle.textContent = "You're Paying Above Market";
-            verdictText.textContent = `You're paying ${formatSalary(Math.abs(delta))} more than the typical ${expLabels[experience]} ${data.shortTitle}.`;
+            verdictText.textContent = `You may be leaving ${formatSalary(Math.abs(delta))} on the table compared to local competitors.`;
         } else if (delta < -marketRate * 0.1) {
             // More than 10% below market
             verdictCard.classList.add('below');
             verdictIcon.textContent = '📉';
             verdictTitle.textContent = "You're Paying Below Market";
-            verdictText.textContent = `You're paying ${formatSalary(Math.abs(delta))} less than the typical ${expLabels[experience]} ${data.shortTitle}. This may affect retention.`;
+            verdictText.textContent = `Underpaying by ${formatSalary(Math.abs(delta))} could cause retention issues and higher turnover costs.`;
         } else {
             // Within 10% - competitive
             verdictCard.classList.add('competitive');
             verdictIcon.textContent = '✅';
             verdictTitle.textContent = "You're Paying Competitively";
-            verdictText.textContent = `Your salary is in line with market rates for ${expLabels[experience]} ${data.shortTitle}s.`;
+            verdictText.textContent = `Your salary aligns with local market rates. Great for retention and cost efficiency.`;
+        }
+
+        // Update National Average card
+        const natAvg = NATIONAL_AVERAGES[currentRole];
+        const natDelta = currentSalary - natAvg;
+        document.getElementById('nat-avg-value').textContent = formatSalary(natAvg);
+        const natAvgComparisonEl = document.getElementById('nat-avg-comparison');
+
+        if (natDelta >= 0) {
+            natAvgComparisonEl.textContent = `You're paying ${formatSalary(Math.abs(natDelta))} above the national average.`;
+        } else {
+            natAvgComparisonEl.textContent = `You're paying ${formatSalary(Math.abs(natDelta))} below the national average.`;
+        }
+
+        // Update State Average card
+        const stateName = window.STATE_NAMES?.[currentState] || currentState;
+        const stateDelta = currentSalary - marketRate;
+        document.getElementById('state-avg-label').textContent = `📍 ${stateName} Average`;
+        document.getElementById('state-avg-value').textContent = formatSalary(marketRate);
+        const stateAvgComparisonEl = document.getElementById('state-avg-comparison');
+
+        if (stateDelta >= 0) {
+            stateAvgComparisonEl.textContent = `You're paying ${formatSalary(Math.abs(stateDelta))} above the ${stateName} average.`;
+        } else {
+            stateAvgComparisonEl.textContent = `You're paying ${formatSalary(Math.abs(stateDelta))} below the ${stateName} average.`;
         }
 
         // Update comparison values
         document.getElementById('you-pay-value').textContent = formatSalary(currentSalary);
+        document.getElementById('market-rate-label').textContent = `${stateName} Market Rate`;
         document.getElementById('market-rate-value').textContent = formatSalary(marketRate);
 
         // Update range bar
@@ -194,14 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let position = ((currentSalary - range.low) / rangeSpan) * 100;
         position = Math.max(5, Math.min(95, position)); // Keep marker visible
         userMarker.style.left = `${position}%`;
-
-        // Highlight selected experience card
-        document.querySelectorAll('.experience-card').forEach(card => {
-            card.classList.remove('selected');
-            if (card.dataset.level === experience) {
-                card.classList.add('selected');
-            }
-        });
 
         currentExperience = experience;
     }
@@ -217,6 +298,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const data = window.SALARY_DATA?.[currentRole];
         if (!data) return;
+
+        // Check unlock status whenever results are shown
+        checkUnlockStatus();
 
         // Update experience levels grid
         const exp = data.experience;
@@ -234,13 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, 0);
     });
 
-    // Experience card clicks
-    document.querySelectorAll('.experience-card.clickable').forEach(card => {
-        card.addEventListener('click', () => {
-            const level = card.dataset.level;
-            updateDisplayForExperience(level);
-        });
-    });
+
 
     // Back button
     backBtn.addEventListener('click', () => {
@@ -249,3 +327,4 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, 0);
     });
 });
+

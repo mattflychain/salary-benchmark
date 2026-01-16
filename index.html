@@ -58,7 +58,7 @@
             <section class="input-section" id="input-section">
                 <div class="hero">
                     <h1 class="hero-title">
-                        Are you paying <span class="highlight">competitive salaries</span>?
+                        Is your <span class="highlight">ABA clinic</span> paying competitive salaries?
                     </h1>
                     <p class="hero-subtitle">
                         See how your staff compensation compares to market rates.
@@ -66,6 +66,7 @@
                 </div>
 
                 <div class="input-card">
+                    <!-- ... (input groups remain the same) ... -->
                     <div class="input-group">
                         <label for="state-select" class="input-label">
                             <span class="label-icon">📍</span>
@@ -123,94 +124,138 @@
 
             <!-- Results Section -->
             <section class="results-section hidden" id="results-section">
-                <!-- Verdict Card -->
-                <div class="verdict-card" id="verdict-card">
-                    <div class="verdict-icon" id="verdict-icon">💰</div>
-                    <div class="verdict-content">
-                        <h2 class="verdict-title" id="verdict-title">You're Paying Below Market</h2>
-                        <p class="verdict-text" id="verdict-text">Your salary is $5,000 below the typical rate for this
-                            role.</p>
+                <!-- National Average Card (only shows national, state is gated) -->
+                <div class="national-average-card" id="national-average-card">
+                    <div class="nat-avg-info">
+                        <span class="nat-avg-label">🇺🇸 National Average</span>
+                        <span class="nat-avg-value" id="nat-avg-value">$0</span>
+                    </div>
+                    <div class="nat-avg-comparison" id="nat-avg-comparison">
+                        You're paying $0 below the national average.
                     </div>
                 </div>
 
-                <!-- Comparison -->
-                <div class="comparison-section">
-                    <div class="comparison-row">
-                        <div class="comparison-item you-pay">
-                            <span class="comparison-label">You're Paying</span>
-                            <span class="comparison-value" id="you-pay-value">$60,000</span>
-                        </div>
-                        <div class="comparison-vs">vs</div>
-                        <div class="comparison-item market-rate">
-                            <span class="comparison-label">Market Rate</span>
-                            <span class="comparison-value" id="market-rate-value">$65,000</span>
+                <!-- Restricted Content Layer -->
+                <div class="restricted-results" id="restricted-results">
+                    <!-- Email Gate Overlay -->
+                    <div class="email-gate-overlay" id="email-gate">
+                        <div class="email-gate-content">
+                            <div class="gate-icon">🔒</div>
+                            <h3 class="gate-title">Enter Email to Unlock Full Market Data</h3>
+                            <p class="gate-text">See your local competitive range, experience benchmarks, and
+                                profitability analysis.</p>
+                            <form id="email-gate-form" class="gate-form">
+                                <input type="email" id="user-email" class="gate-input"
+                                    placeholder="Enter your work email" required>
+                                <button type="submit" class="btn-primary gate-btn">Unlock All Benchmarks</button>
+                            </form>
                         </div>
                     </div>
 
-                    <!-- Range Bar -->
-                    <div class="range-section" id="range-section">
-                        <div class="range-bar-container">
-                            <div class="range-bar">
-                                <div class="range-segment range-low"></div>
-                                <div class="range-segment range-mid"></div>
-                                <div class="range-segment range-high"></div>
+                    <div class="restricted-blur-container" id="blur-container">
+                        <!-- State Average Card (inside blur) -->
+                        <div class="state-average-card" id="state-average-card">
+                            <div class="nat-avg-info">
+                                <span class="nat-avg-label" id="state-avg-label">📍 State Average</span>
+                                <span class="nat-avg-value" id="state-avg-value">$0</span>
                             </div>
-                            <div class="user-marker" id="user-marker">
-                                <div class="marker-label" id="marker-label">You</div>
-                                <div class="marker-line"></div>
-                                <div class="marker-dot"></div>
+                            <div class="nat-avg-comparison" id="state-avg-comparison">
+                                You're paying $0 above the state average.
                             </div>
                         </div>
-                        <div class="range-labels">
-                            <span class="range-end" id="range-low">$55,000</span>
-                            <span class="range-end" id="range-high">$78,000</span>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Experience Levels Card -->
-                <div class="experience-card-container">
-                    <h2 class="section-title">Market Rates by Experience</h2>
-                    <div class="experience-grid" id="experience-grid">
-                        <div class="experience-card clickable" data-level="entry">
-                            <span class="exp-label">Entry Level</span>
-                            <span class="exp-years">&lt;1 year</span>
-                            <span class="exp-salary" id="exp-entry">$65,000</span>
+                        <!-- Verdict Card (inside blur) -->
+                        <div class="verdict-card" id="verdict-card">
+                            <div class="verdict-icon" id="verdict-icon">💰</div>
+                            <div class="verdict-content">
+                                <h2 class="verdict-title" id="verdict-title">You're Paying Below Market</h2>
+                                <p class="verdict-text" id="verdict-text">Your salary is $5,000 below the typical rate
+                                    for this
+                                    role.</p>
+                            </div>
                         </div>
-                        <div class="experience-card clickable" data-level="early">
-                            <span class="exp-label">Early Career</span>
-                            <span class="exp-years">1-4 years</span>
-                            <span class="exp-salary" id="exp-early">$72,000</span>
-                        </div>
-                        <div class="experience-card clickable" data-level="mid">
-                            <span class="exp-label">Mid Career</span>
-                            <span class="exp-years">5-9 years</span>
-                            <span class="exp-salary" id="exp-mid">$85,000</span>
-                        </div>
-                        <div class="experience-card clickable" data-level="experienced">
-                            <span class="exp-label">Experienced</span>
-                            <span class="exp-years">10+ years</span>
-                            <span class="exp-salary" id="exp-experienced">$98,000</span>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Flychain CTA - Dynamic based on variant -->
-                <div class="cta-section">
-                    <div class="cta-card">
-                        <h3 class="cta-title" id="cta-title">📊 Get Your Custom Salary Benchmark Report</h3>
-                        <p class="cta-text" id="cta-text">
-                            Stop guessing. See exactly what local competitors are paying their RBTs and BCBAs right now.
-                        </p>
-                        <a href="https://www.flychain.us/contact" target="_blank" rel="noopener noreferrer"
-                            class="cta-button" id="cta-button">
-                            <span id="cta-button-text">Get My Report</span>
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
+                        <!-- Comparison -->
+                        <div class="comparison-section">
+                            <div class="comparison-row">
+                                <div class="comparison-item you-pay">
+                                    <span class="comparison-label">You're Paying</span>
+                                    <span class="comparison-value" id="you-pay-value">$60,000</span>
+                                </div>
+                                <div class="comparison-vs">vs</div>
+                                <div class="comparison-item market-rate">
+                                    <span class="comparison-label" id="market-rate-label">Market Rate</span>
+                                    <span class="comparison-value" id="market-rate-value">$65,000</span>
+                                </div>
+                            </div>
+
+                            <!-- Range Bar -->
+                            <div class="range-section" id="range-section">
+                                <div class="range-bar-container">
+                                    <div class="range-bar">
+                                        <div class="range-segment range-low"></div>
+                                        <div class="range-segment range-mid"></div>
+                                        <div class="range-segment range-high"></div>
+                                    </div>
+                                    <div class="user-marker" id="user-marker">
+                                        <div class="marker-label" id="marker-label">You</div>
+                                        <div class="marker-line"></div>
+                                        <div class="marker-dot"></div>
+                                    </div>
+                                </div>
+                                <div class="range-labels">
+                                    <span class="range-end" id="range-low">$55,000</span>
+                                    <span class="range-end" id="range-high">$78,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience Levels Card -->
+                        <div class="experience-card-container">
+                            <h2 class="section-title">Market Rates by Experience</h2>
+                            <div class="experience-grid" id="experience-grid">
+                                <div class="experience-card" data-level="entry">
+                                    <span class="exp-label">Entry Level</span>
+                                    <span class="exp-years">&lt;1 year</span>
+                                    <span class="exp-salary" id="exp-entry">$65,000</span>
+                                </div>
+                                <div class="experience-card" data-level="early">
+                                    <span class="exp-label">Early Career</span>
+                                    <span class="exp-years">1-4 years</span>
+                                    <span class="exp-salary" id="exp-early">$72,000</span>
+                                </div>
+                                <div class="experience-card" data-level="mid">
+                                    <span class="exp-label">Mid Career</span>
+                                    <span class="exp-years">5-9 years</span>
+                                    <span class="exp-salary" id="exp-mid">$85,000</span>
+                                </div>
+                                <div class="experience-card" data-level="experienced">
+                                    <span class="exp-label">Experienced</span>
+                                    <span class="exp-years">10+ years</span>
+                                    <span class="exp-salary" id="exp-experienced">$98,000</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Flychain CTA - Dynamic based on variant -->
+                        <div class="cta-section">
+                            <div class="cta-card">
+                                <h3 class="cta-title" id="cta-title">📊 Get Your Custom Salary Benchmark Report</h3>
+                                <p class="cta-text" id="cta-text">
+                                    Stop guessing. See exactly what local competitors are paying their RBTs and BCBAs
+                                    right now.
+                                </p>
+                                <a href="https://www.flychain.us/contact" target="_blank" rel="noopener noreferrer"
+                                    class="cta-button" id="cta-button">
+                                    <span id="cta-button-text">Get My Report</span>
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
