@@ -30,6 +30,11 @@
     padding: 0;
 }
 
+/* Global utility - hide elements */
+.hidden {
+    display: none !important;
+}
+
 html {
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
@@ -2206,6 +2211,11 @@ body {
     border-left: 4px solid var(--text-muted);
 }
 
+/* Verdict card when at top of results */
+.verdict-card.verdict-card-top {
+    margin-bottom: 16px;
+}
+
 .verdict-card.above {
     border-left-color: #f0b800;
     background: linear-gradient(135deg, rgba(240, 184, 0, 0.08) 0%, var(--white) 100%);
@@ -2614,6 +2624,67 @@ body {
     flex-direction: column;
     gap: 8px;
     border-left: 6px solid #6c757d;
+    margin-bottom: 16px;
+}
+
+/* Prominent National Average Card (different color - blue/teal) */
+.national-average-card.national-average-prominent {
+    background: linear-gradient(135deg, #ffffff 0%, #e8f4f8 100%);
+    border-left: 6px solid #4a9eb8;
+    padding: 24px;
+    box-shadow: 0 6px 28px rgba(74, 158, 184, 0.12);
+}
+
+.national-average-prominent .nat-avg-label {
+    font-size: 1rem;
+    color: #4a9eb8;
+}
+
+.national-average-prominent .nat-avg-value {
+    font-size: 2rem;
+    background: linear-gradient(135deg, #4a9eb8 0%, #6bbcd4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.national-average-prominent .nat-avg-comparison {
+    font-size: 1rem;
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+/* Pay Toggle (Annual/Hourly) */
+.pay-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.toggle-btn {
+    flex: 1;
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--text-muted);
+    background: var(--background);
+    border: 2px solid var(--border-light);
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.toggle-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.toggle-btn.active {
+    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    color: var(--white);
+    border-color: transparent;
+    box-shadow: 0 2px 8px var(--primary-glow);
 }
 
 .nat-avg-info {
@@ -2654,6 +2725,34 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    margin-bottom: 16px;
+}
+
+/* Prominent State Average Card (visible, above national) */
+.state-average-card.state-average-prominent {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+    border-left: 6px solid var(--primary);
+    padding: 24px;
+    box-shadow: 0 6px 28px rgba(106, 89, 255, 0.15);
+}
+
+.state-average-prominent .nat-avg-label {
+    font-size: 1rem;
+    color: var(--primary);
+}
+
+.state-average-prominent .nat-avg-value {
+    font-size: 2rem;
+    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.state-average-prominent .nat-avg-comparison {
+    font-size: 1rem;
+    color: var(--primary-dark);
+    font-weight: 600;
 }
 
 /* Restricted Content & Email Gate */

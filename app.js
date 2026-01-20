@@ -2,12 +2,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const stateSelect = document.getElementById('state-select');
     const roleSelect = document.getElementById('role-select');
-    const experienceSelect = document.getElementById('experience-select');
     const salaryInput = document.getElementById('salary-input');
     const compareBtn = document.getElementById('compare-btn');
     const backBtn = document.getElementById('back-btn');
     const inputSection = document.getElementById('input-section');
     const resultsSection = document.getElementById('results-section');
+    const payTypeLabel = document.getElementById('pay-type-label');
+
+    // Toggle buttons
+    const toggleAnnual = document.getElementById('toggle-annual');
+    const toggleHourly = document.getElementById('toggle-hourly');
 
     // Email Gate Elements
     const emailGate = document.getElementById('email-gate');
@@ -15,11 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const blurContainer = document.getElementById('blur-container');
     const userEmailInput = document.getElementById('user-email');
 
-    // National Averages (Benchmark data estimates)
-    const NATIONAL_AVERAGES = {
-        "BCBA": 85000,
-        "RBT": 48000
-    };
+    // National Average cards (preview and unlocked versions)
+    const nationalPreview = document.querySelector('.national-preview');
+    const nationalUnlocked = document.querySelector('.national-unlocked');
 
     // Settings elements
     const settingsBtn = document.getElementById('settings-btn');
@@ -29,15 +31,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const showRangeCheckbox = document.getElementById('show-range');
     const rangeSection = document.getElementById('range-section');
 
+    // Current state
+    let currentRole = null;
+    let currentState = null;
+    let currentSalary = null;
+    let currentMode = 'annual'; // 'annual' or 'hourly'
+
+    // Toggle mode handler
+    function setMode(mode) {
+        currentMode = mode;
+        if (mode === 'annual') {
+            toggleAnnual.classList.add('active');
+            toggleHourly.classList.remove('active');
+            payTypeLabel.textContent = "What You're Paying (Annual)";
+            salaryInput.placeholder = "65,000";
+        } else {
+            toggleHourly.classList.add('active');
+            toggleAnnual.classList.remove('active');
+            payTypeLabel.textContent = "What You're Paying (Hourly)";
+            salaryInput.placeholder = "35.00";
+        }
+        salaryInput.value = '';
+        validateForm();
+    }
+
+    toggleAnnual.addEventListener('click', () => setMode('annual'));
+    toggleHourly.addEventListener('click', () => setMode('hourly'));
+
     // Check if results are already unlocked
     function checkUnlockStatus() {
         if (localStorage.getItem('flychain_unlocked') === 'true') {
-            emailGate.classList.add('hidden');
-            blurContainer.classList.remove('blurred');
+            unlockResults();
         } else {
-            emailGate.classList.remove('hidden');
-            blurContainer.classList.add('blurred');
+            lockResults();
         }
+    }
+
+    // Lock results (show gate, show preview national, hide unlocked national)
+    function lockResults() {
+        emailGate.classList.remove('hidden');
+        blurContainer.classList.add('blurred');
+        nationalPreview.classList.remove('hidden');
+        nationalUnlocked.classList.add('hidden');
+    }
+
+    // Unlock results (hide gate, hide preview national, show unlocked national)
+    function unlockResults() {
+        emailGate.classList.add('hidden');
+        blurContainer.classList.remove('blurred');
+        nationalPreview.classList.add('hidden');
+        nationalUnlocked.classList.remove('hidden');
     }
 
     // Handle email submission
@@ -49,8 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('flychain_user_email', email);
 
             // Animate unlock
-            emailGate.classList.add('hidden');
-            blurContainer.classList.remove('blurred');
+            unlockResults();
 
             // Send to Zapier webhook
             try {
@@ -67,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         state: stateName,
                         stateCode: currentState,
                         salary: currentSalary,
-                        experienceLevel: currentExperience,
+                        payMode: currentMode,
                         timestamp: new Date().toISOString(),
                         source: 'salary-benchmark-tool'
                     })
@@ -80,7 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // CTA copy variants
-    // ... (rest of the variants remain the same)
     const ctaVariants = {
         1: {
             title: '📊 Get Your Custom Salary Benchmark Report',
@@ -135,12 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Current state
-    let currentRole = null;
-    let currentState = null;
-    let currentExperience = null;
-    let currentSalary = null;
-
     // Populate state dropdown
     if (window.STATE_NAMES) {
         Object.entries(window.STATE_NAMES)
@@ -155,64 +190,73 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Salary input formatting
     salaryInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/[^0-9]/g, '');
-        if (value) {
-            value = parseInt(value, 10).toLocaleString('en-US');
+        let value = e.target.value;
+
+        if (currentMode === 'annual') {
+            // Remove non-numeric characters for annual
+            value = value.replace(/[^0-9]/g, '');
+            if (value) {
+                value = parseInt(value, 10).toLocaleString('en-US');
+            }
+        } else {
+            // Allow decimals for hourly
+            value = value.replace(/[^0-9.]/g, '');
+            // Only allow one decimal point
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts[0] + '.' + parts.slice(1).join('');
+            }
         }
+
         e.target.value = value;
         validateForm();
     });
 
-    // Validation - all fields required including salary
+    // Validation - state, role, and salary required
     function validateForm() {
         const stateValid = stateSelect.value !== '';
         const roleValid = roleSelect.value !== '';
-        const expValid = experienceSelect.value !== '';
         const salaryValid = salaryInput.value !== '';
-        compareBtn.disabled = !(stateValid && roleValid && expValid && salaryValid);
+        compareBtn.disabled = !(stateValid && roleValid && salaryValid);
     }
 
     stateSelect.addEventListener('change', validateForm);
     roleSelect.addEventListener('change', validateForm);
-    experienceSelect.addEventListener('change', validateForm);
 
-    // Format salary
-    function formatSalary(amount) {
+    // Format salary/hourly rate
+    function formatAmount(amount) {
+        if (currentMode === 'hourly') {
+            return '$' + amount.toFixed(2);
+        }
         return '$' + Math.round(amount).toLocaleString('en-US');
     }
 
-    // Experience level labels
-    const expLabels = {
-        entry: 'Entry Level',
-        early: 'Early Career',
-        mid: 'Mid Career',
-        experienced: 'Experienced'
-    };
-
-    // Calculate salary range - extends dynamically to include user's salary
-    function getExperienceRange(baseSalary, userSalary) {
-        let low = Math.round(baseSalary * 0.85);
-        let high = Math.round(baseSalary * 1.20);
+    // Get salary range using p25 and p75
+    function getSalaryRange(stateData, userSalary) {
+        const modeData = stateData[currentMode];
+        let low = modeData.p25;
+        let high = modeData.p75;
 
         // Extend range to include user's salary with padding
         if (userSalary < low) {
-            low = Math.round(userSalary * 0.90);
+            low = currentMode === 'hourly' ? userSalary * 0.90 : Math.round(userSalary * 0.90);
         }
         if (userSalary > high) {
-            high = Math.round(userSalary * 1.05);
+            high = currentMode === 'hourly' ? userSalary * 1.05 : Math.round(userSalary * 1.05);
         }
 
         return { low, high };
     }
 
-    // Update the display for current experience level
-    function updateDisplayForExperience(experience) {
+    // Update display with results
+    function updateDisplay() {
         const data = window.SALARY_DATA?.[currentRole];
         if (!data) return;
 
-        const expData = data.experience[experience];
-        const marketRate = expData.salary;
-        const range = getExperienceRange(marketRate, currentSalary);
+        const stateData = data.states[currentState];
+        const nationalData = data.national;
+        const marketRate = stateData[currentMode].p50;
+        const range = getSalaryRange(stateData, currentSalary);
         const delta = currentSalary - marketRate;
 
         // Update verdict card
@@ -228,54 +272,58 @@ document.addEventListener('DOMContentLoaded', () => {
             verdictCard.classList.add('above');
             verdictIcon.textContent = '📈';
             verdictTitle.textContent = "You're Paying Above Market";
-            verdictText.textContent = `You may be leaving ${formatSalary(Math.abs(delta))} on the table compared to local competitors.`;
+            verdictText.textContent = `You may be leaving ${formatAmount(Math.abs(delta))} on the table compared to local competitors.`;
         } else if (delta < -marketRate * 0.1) {
             // More than 10% below market
             verdictCard.classList.add('below');
             verdictIcon.textContent = '📉';
             verdictTitle.textContent = "You're Paying Below Market";
-            verdictText.textContent = `Underpaying by ${formatSalary(Math.abs(delta))} could cause retention issues and higher turnover costs.`;
+            verdictText.textContent = `Underpaying by ${formatAmount(Math.abs(delta))} could cause retention issues and higher turnover costs.`;
         } else {
             // Within 10% - competitive
             verdictCard.classList.add('competitive');
             verdictIcon.textContent = '✅';
             verdictTitle.textContent = "You're Paying Competitively";
-            verdictText.textContent = `Your salary aligns with local market rates. Great for retention and cost efficiency.`;
+            verdictText.textContent = `Your ${currentMode === 'hourly' ? 'rate' : 'salary'} aligns with local market rates. Great for retention and cost efficiency.`;
         }
 
-        // Update National Average card
-        const natAvg = NATIONAL_AVERAGES[currentRole];
+        // Update National Average card (both preview and unlocked versions)
+        const natAvg = nationalData[currentMode].p50;
         const natDelta = currentSalary - natAvg;
-        document.getElementById('nat-avg-value').textContent = formatSalary(natAvg);
-        const natAvgComparisonEl = document.getElementById('nat-avg-comparison');
+        const natAvgFormatted = formatAmount(natAvg);
+        const natDeltaText = natDelta >= 0
+            ? `You're paying ${formatAmount(Math.abs(natDelta))} above the national average.`
+            : `You're paying ${formatAmount(Math.abs(natDelta))} below the national average.`;
 
-        if (natDelta >= 0) {
-            natAvgComparisonEl.textContent = `You're paying ${formatSalary(Math.abs(natDelta))} above the national average.`;
-        } else {
-            natAvgComparisonEl.textContent = `You're paying ${formatSalary(Math.abs(natDelta))} below the national average.`;
-        }
+        // Preview version
+        document.getElementById('nat-avg-value').textContent = natAvgFormatted;
+        document.getElementById('nat-avg-comparison').textContent = natDeltaText;
+
+        // Unlocked version
+        document.getElementById('nat-avg-value-unlocked').textContent = natAvgFormatted;
+        document.getElementById('nat-avg-comparison-unlocked').textContent = natDeltaText;
 
         // Update State Average card
         const stateName = window.STATE_NAMES?.[currentState] || currentState;
         const stateDelta = currentSalary - marketRate;
         document.getElementById('state-avg-label').textContent = `📍 ${stateName} Average`;
-        document.getElementById('state-avg-value').textContent = formatSalary(marketRate);
+        document.getElementById('state-avg-value').textContent = formatAmount(marketRate);
         const stateAvgComparisonEl = document.getElementById('state-avg-comparison');
 
         if (stateDelta >= 0) {
-            stateAvgComparisonEl.textContent = `You're paying ${formatSalary(Math.abs(stateDelta))} above the ${stateName} average.`;
+            stateAvgComparisonEl.textContent = `You're paying ${formatAmount(Math.abs(stateDelta))} above the ${stateName} average.`;
         } else {
-            stateAvgComparisonEl.textContent = `You're paying ${formatSalary(Math.abs(stateDelta))} below the ${stateName} average.`;
+            stateAvgComparisonEl.textContent = `You're paying ${formatAmount(Math.abs(stateDelta))} below the ${stateName} average.`;
         }
 
         // Update comparison values
-        document.getElementById('you-pay-value').textContent = formatSalary(currentSalary);
+        document.getElementById('you-pay-value').textContent = formatAmount(currentSalary);
         document.getElementById('market-rate-label').textContent = `${stateName} Market Rate`;
-        document.getElementById('market-rate-value').textContent = formatSalary(marketRate);
+        document.getElementById('market-rate-value').textContent = formatAmount(marketRate);
 
         // Update range bar
-        document.getElementById('range-low').textContent = formatSalary(range.low);
-        document.getElementById('range-high').textContent = formatSalary(range.high);
+        document.getElementById('range-low').textContent = formatAmount(range.low);
+        document.getElementById('range-high').textContent = formatAmount(range.high);
 
         // Position user marker
         const userMarker = document.getElementById('user-marker');
@@ -283,8 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
         let position = ((currentSalary - range.low) / rangeSpan) * 100;
         position = Math.max(5, Math.min(95, position)); // Keep marker visible
         userMarker.style.left = `${position}%`;
-
-        currentExperience = experience;
     }
 
     // Show results
@@ -293,8 +339,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         currentRole = roleSelect.value;
         currentState = stateSelect.value;
-        currentExperience = experienceSelect.value;
-        currentSalary = parseInt(salaryInput.value.replace(/,/g, ''), 10);
+
+        if (currentMode === 'annual') {
+            currentSalary = parseInt(salaryInput.value.replace(/,/g, ''), 10);
+        } else {
+            currentSalary = parseFloat(salaryInput.value);
+        }
 
         const data = window.SALARY_DATA?.[currentRole];
         if (!data) return;
@@ -302,23 +352,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Check unlock status whenever results are shown
         checkUnlockStatus();
 
-        // Update experience levels grid
-        const exp = data.experience;
-        document.getElementById('exp-entry').textContent = formatSalary(exp.entry.salary);
-        document.getElementById('exp-early').textContent = formatSalary(exp.early.salary);
-        document.getElementById('exp-mid').textContent = formatSalary(exp.mid.salary);
-        document.getElementById('exp-experienced').textContent = formatSalary(exp.experienced.salary);
-
-        // Update display for selected experience
-        updateDisplayForExperience(currentExperience);
+        // Update display
+        updateDisplay();
 
         // Show results, hide input
         inputSection.classList.add('hidden');
         resultsSection.classList.remove('hidden');
         window.scrollTo(0, 0);
     });
-
-
 
     // Back button
     backBtn.addEventListener('click', () => {
@@ -327,4 +368,3 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, 0);
     });
 });
-

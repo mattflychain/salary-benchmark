@@ -66,7 +66,6 @@
                 </div>
 
                 <div class="input-card">
-                    <!-- ... (input groups remain the same) ... -->
                     <div class="input-group">
                         <label for="state-select" class="input-label">
                             <span class="label-icon">📍</span>
@@ -90,24 +89,19 @@
                     </div>
 
                     <div class="input-group">
-                        <label for="experience-select" class="input-label">
-                            <span class="label-icon">⏱️</span>
-                            Experience Level
-                        </label>
-                        <select id="experience-select" class="input-field select-field">
-                            <option value="" disabled selected>Select experience level...</option>
-                            <option value="entry">Entry Level (&lt;1 year)</option>
-                            <option value="early">Early Career (1-4 years)</option>
-                            <option value="mid">Mid Career (5-9 years)</option>
-                            <option value="experienced">Experienced (10+ years)</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="salary-input" class="input-label">
+                        <label class="input-label">
                             <span class="label-icon">💰</span>
-                            What You're Paying (Annual)
+                            <span id="pay-type-label">What You're Paying (Annual)</span>
                         </label>
+
+                        <!-- Hourly/Annual Toggle -->
+                        <div class="pay-toggle">
+                            <button type="button" class="toggle-btn active" id="toggle-annual"
+                                data-mode="annual">Annual</button>
+                            <button type="button" class="toggle-btn" id="toggle-hourly"
+                                data-mode="hourly">Hourly</button>
+                        </div>
+
                         <div class="currency-input">
                             <span class="currency-symbol">$</span>
                             <input type="text" id="salary-input" class="input-field input-currency" placeholder="65,000"
@@ -124,8 +118,10 @@
 
             <!-- Results Section -->
             <section class="results-section hidden" id="results-section">
-                <!-- National Average Card (only shows national, state is gated) -->
-                <div class="national-average-card" id="national-average-card">
+
+                <!-- National Average Card (visible before gate, stays at top initially) -->
+                <div class="national-average-card national-average-prominent national-preview"
+                    id="national-average-card">
                     <div class="nat-avg-info">
                         <span class="nat-avg-label">🇺🇸 National Average</span>
                         <span class="nat-avg-value" id="nat-avg-value">$0</span>
@@ -142,8 +138,8 @@
                         <div class="email-gate-content">
                             <div class="gate-icon">🔒</div>
                             <h3 class="gate-title">Enter Email to Unlock Full Market Data</h3>
-                            <p class="gate-text">See your local competitive range, experience benchmarks, and
-                                profitability analysis.</p>
+                            <p class="gate-text">See your local competitive range, state benchmarks, and detailed
+                                analysis.</p>
                             <form id="email-gate-form" class="gate-form">
                                 <input type="email" id="user-email" class="gate-input"
                                     placeholder="Enter your work email" required>
@@ -153,8 +149,31 @@
                     </div>
 
                     <div class="restricted-blur-container" id="blur-container">
-                        <!-- State Average Card (inside blur) -->
-                        <div class="state-average-card" id="state-average-card">
+
+                        <!-- 1. Verdict Card (TOP after unlock) -->
+                        <div class="verdict-card" id="verdict-card">
+                            <div class="verdict-icon" id="verdict-icon">💰</div>
+                            <div class="verdict-content">
+                                <h2 class="verdict-title" id="verdict-title">You're Paying Below Market</h2>
+                                <p class="verdict-text" id="verdict-text">Your salary is $5,000 below the typical rate
+                                    for this role.</p>
+                            </div>
+                        </div>
+
+                        <!-- 2. National Average (duplicate inside for unlocked order) -->
+                        <div class="national-average-card national-average-prominent national-unlocked hidden"
+                            id="national-average-card-unlocked">
+                            <div class="nat-avg-info">
+                                <span class="nat-avg-label">🇺🇸 National Average</span>
+                                <span class="nat-avg-value" id="nat-avg-value-unlocked">$0</span>
+                            </div>
+                            <div class="nat-avg-comparison" id="nat-avg-comparison-unlocked">
+                                You're paying $0 below the national average.
+                            </div>
+                        </div>
+
+                        <!-- 3. State/Local Average Card -->
+                        <div class="state-average-card state-average-prominent" id="state-average-card">
                             <div class="nat-avg-info">
                                 <span class="nat-avg-label" id="state-avg-label">📍 State Average</span>
                                 <span class="nat-avg-value" id="state-avg-value">$0</span>
@@ -164,18 +183,7 @@
                             </div>
                         </div>
 
-                        <!-- Verdict Card (inside blur) -->
-                        <div class="verdict-card" id="verdict-card">
-                            <div class="verdict-icon" id="verdict-icon">💰</div>
-                            <div class="verdict-content">
-                                <h2 class="verdict-title" id="verdict-title">You're Paying Below Market</h2>
-                                <p class="verdict-text" id="verdict-text">Your salary is $5,000 below the typical rate
-                                    for this
-                                    role.</p>
-                            </div>
-                        </div>
-
-                        <!-- Comparison -->
+                        <!-- 4. Comparison Section with Range Bar Widget -->
                         <div class="comparison-section">
                             <div class="comparison-row">
                                 <div class="comparison-item you-pay">
@@ -210,34 +218,7 @@
                             </div>
                         </div>
 
-                        <!-- Experience Levels Card -->
-                        <div class="experience-card-container">
-                            <h2 class="section-title">Market Rates by Experience</h2>
-                            <div class="experience-grid" id="experience-grid">
-                                <div class="experience-card" data-level="entry">
-                                    <span class="exp-label">Entry Level</span>
-                                    <span class="exp-years">&lt;1 year</span>
-                                    <span class="exp-salary" id="exp-entry">$65,000</span>
-                                </div>
-                                <div class="experience-card" data-level="early">
-                                    <span class="exp-label">Early Career</span>
-                                    <span class="exp-years">1-4 years</span>
-                                    <span class="exp-salary" id="exp-early">$72,000</span>
-                                </div>
-                                <div class="experience-card" data-level="mid">
-                                    <span class="exp-label">Mid Career</span>
-                                    <span class="exp-years">5-9 years</span>
-                                    <span class="exp-salary" id="exp-mid">$85,000</span>
-                                </div>
-                                <div class="experience-card" data-level="experienced">
-                                    <span class="exp-label">Experienced</span>
-                                    <span class="exp-years">10+ years</span>
-                                    <span class="exp-salary" id="exp-experienced">$98,000</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Flychain CTA - Dynamic based on variant -->
+                        <!-- Flychain CTA -->
                         <div class="cta-section">
                             <div class="cta-card">
                                 <h3 class="cta-title" id="cta-title">📊 Get Your Custom Salary Benchmark Report</h3>
@@ -273,8 +254,8 @@
         </footer>
     </div>
 
-    <script src="data/salary-data.js?v=5"></script>
-    <script src="app.js?v=8"></script>
+    <script src="data/salary-data.js?v=11"></script>
+    <script src="app.js?v=14"></script>
 </body>
 
 </html>
