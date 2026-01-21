@@ -2328,12 +2328,43 @@ h6,
 }
 
 .comparison-item.market-rate {
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.08) 0%, rgba(0, 180, 216, 0.04) 100%);
-    border-color: rgba(0, 217, 255, 0.2);
+    background: linear-gradient(135deg, rgba(106, 89, 255, 0.08) 0%, rgba(139, 123, 255, 0.04) 100%);
+    border-color: rgba(106, 89, 255, 0.2);
 }
 
 .comparison-item.market-rate .comparison-value {
-    color: #0096ab;
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Dynamic You're Paying colors based on status */
+.comparison-item.you-pay.below {
+    background: linear-gradient(135deg, rgba(255, 152, 135, 0.15) 0%, rgba(255, 163, 72, 0.08) 100%);
+    border-color: rgba(255, 152, 135, 0.3);
+}
+
+.comparison-item.you-pay.below .comparison-value {
+    color: var(--accent-coral);
+}
+
+.comparison-item.you-pay.above {
+    background: linear-gradient(135deg, rgba(34, 205, 181, 0.12) 0%, rgba(15, 139, 122, 0.06) 100%);
+    border-color: rgba(34, 205, 181, 0.25);
+}
+
+.comparison-item.you-pay.above .comparison-value {
+    color: var(--accent-teal);
+}
+
+.comparison-item.you-pay.competitive {
+    background: linear-gradient(135deg, rgba(106, 89, 255, 0.12) 0%, rgba(139, 123, 255, 0.06) 100%);
+    border-color: rgba(106, 89, 255, 0.2);
+}
+
+.comparison-item.you-pay.competitive .comparison-value {
+    color: var(--primary);
 }
 
 .comparison-label {

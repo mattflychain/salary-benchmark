@@ -321,6 +321,17 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('market-rate-label').textContent = `${stateName} Market Rate`;
         document.getElementById('market-rate-value').textContent = formatAmount(marketRate);
 
+        // Update "You're Paying" box color to match verdict
+        const youPayItem = document.querySelector('.comparison-item.you-pay');
+        youPayItem.classList.remove('below', 'above', 'competitive');
+        if (delta > marketRate * 0.1) {
+            youPayItem.classList.add('above');
+        } else if (delta < -marketRate * 0.1) {
+            youPayItem.classList.add('below');
+        } else {
+            youPayItem.classList.add('competitive');
+        }
+
         // Update range bar
         document.getElementById('range-low').textContent = formatAmount(range.low);
         document.getElementById('range-high').textContent = formatAmount(range.high);
