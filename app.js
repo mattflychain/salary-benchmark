@@ -23,14 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nationalPreview = document.querySelector('.national-preview');
     const nationalUnlocked = document.querySelector('.national-unlocked');
 
-    // Settings elements
-    const settingsBtn = document.getElementById('settings-btn');
-    const settingsPanel = document.getElementById('settings-panel');
-    const settingsClose = document.getElementById('settings-close');
-    const copyVariantSelect = document.getElementById('copy-variant');
-    const showRangeCheckbox = document.getElementById('show-range');
-    const rangeSection = document.getElementById('range-section');
-
     // Current state
     let currentRole = null;
     let currentState = null;
@@ -118,61 +110,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } catch (error) {
                 console.error("Failed to send to Zapier:", error);
             }
-        }
-    });
-
-    // CTA copy variants
-    const ctaVariants = {
-        1: {
-            title: '📊 Get Your Custom Salary Benchmark Report',
-            text: 'Stop guessing. See exactly what local competitors are paying their RBTs and BCBAs right now.',
-            button: 'Get My Report'
-        },
-        2: {
-            title: '📉 Are You Losing Talent to Competitors?',
-            text: 'Ensure your offers are competitive without overpaying. We\'ll build a salary strategy based on real-time local market data.',
-            button: 'Compare My Rates'
-        },
-        3: {
-            title: '💰 Competitive Pay that Protects Your Margins',
-            text: 'Balance attractive salaries with clinic profitability. Get a compensation analysis tailored to your specific region and revenue model.',
-            button: 'Analyze My Strategy'
-        },
-        4: {
-            title: '📋 Request a Compensation Audit',
-            text: 'Don\'t rely on national averages. Get a deep-dive analysis of how your pay scales stack up against other ABA clinics in your state.',
-            button: 'Start Free Audit'
-        },
-        5: {
-            title: '🧠 Make Data-Backed Hiring Decisions',
-            text: 'Eliminate the guesswork. Access verified salary benchmarks to confidently set rates for clinical and administrative staff.',
-            button: 'See the Data'
-        }
-    };
-
-    // Settings panel toggle
-    settingsBtn.addEventListener('click', () => {
-        settingsPanel.classList.toggle('hidden');
-    });
-
-    settingsClose.addEventListener('click', () => {
-        settingsPanel.classList.add('hidden');
-    });
-
-    // Copy variant change
-    copyVariantSelect.addEventListener('change', () => {
-        const variant = ctaVariants[copyVariantSelect.value];
-        document.getElementById('cta-title').textContent = variant.title;
-        document.getElementById('cta-text').textContent = variant.text;
-        document.getElementById('cta-button-text').textContent = variant.button;
-    });
-
-    // Range bar toggle
-    showRangeCheckbox.addEventListener('change', () => {
-        if (showRangeCheckbox.checked) {
-            rangeSection.classList.remove('hidden');
-        } else {
-            rangeSection.classList.add('hidden');
         }
     });
 
@@ -331,17 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             youPayItem.classList.add('competitive');
         }
-
-        // Update range bar
-        document.getElementById('range-low').textContent = formatAmount(range.low);
-        document.getElementById('range-high').textContent = formatAmount(range.high);
-
-        // Position user marker
-        const userMarker = document.getElementById('user-marker');
-        const rangeSpan = range.high - range.low;
-        let position = ((currentSalary - range.low) / rangeSpan) * 100;
-        position = Math.max(5, Math.min(95, position)); // Keep marker visible
-        userMarker.style.left = `${position}%`;
     }
 
     // Show results
