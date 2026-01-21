@@ -1,22 +1,49 @@
 :root {
-    --primary: #6a59ff;
+    /* Brand Primary - Purple Gradient */
+    --primary: #6459FF;
+    --primary-start: #8958FF;
+    --primary-end: #6459FF;
     --primary-hover: #5a49ef;
-    --primary-glow: rgba(106, 89, 255, 0.3);
+    --primary-glow: rgba(100, 89, 255, 0.3);
+
+    /* Brand Dark */
     --primary-dark: #110823;
-    --background: #fcfbf7;
-    --accent-coral: #f4634d;
-    --accent-coral-light: rgba(244, 99, 77, 0.1);
-    --accent-sage: #7ac47a;
-    --accent-sage-light: rgba(122, 196, 122, 0.1);
-    --text-muted: #858eb3;
+
+    /* Brand Background */
+    --background: #FAF7F4;
+
+    /* Brand Accent - Teal Gradient (for positive/success) */
+    --accent-teal-start: #0F8B7A;
+    --accent-teal-end: #22CDB5;
+    --accent-teal: #22CDB5;
+    --accent-teal-light: rgba(34, 205, 181, 0.12);
+
+    /* Brand Accent - Coral/Orange Gradient (for warnings/below) */
+    --accent-coral-start: #FFA348;
+    --accent-coral-end: #FF9887;
+    --accent-coral: #FF9887;
+    --accent-coral-light: rgba(255, 152, 135, 0.12);
+
+    /* Other Brand Accents */
+    --accent-lavender: #B3ADFC;
+    --accent-gray: #E9E8EB;
+
+    /* Text */
+    --text-muted: #6B6B7B;
     --white: #ffffff;
+
+    /* Shadows & Borders */
     --card-shadow: 0 4px 24px rgba(17, 8, 35, 0.08);
     --card-shadow-hover: 0 8px 32px rgba(17, 8, 35, 0.12);
     --border-light: rgba(17, 8, 35, 0.08);
+
+    /* Radius */
     --radius-sm: 8px;
     --radius-md: 12px;
     --radius-lg: 20px;
     --radius-xl: 28px;
+
+    /* Transitions */
     --transition-fast: 0.15s ease;
     --transition-medium: 0.3s ease;
     --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -41,11 +68,25 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Barlow', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--background);
     color: var(--primary-dark);
     line-height: 1.6;
     min-height: 100vh;
+}
+
+/* Headers use Manrope */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.hero-title,
+.verdict-title,
+.gate-title,
+.cta-title {
+    font-family: 'Manrope', sans-serif;
 }
 
 .app {
@@ -145,7 +186,7 @@ body {
 }
 
 .highlight {
-    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -341,7 +382,7 @@ body {
     font-weight: 600;
     font-family: inherit;
     color: var(--white);
-    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
     border: none;
     border-radius: 100px;
     cursor: pointer;
@@ -1585,7 +1626,7 @@ body {
     font-weight: 600;
     font-family: inherit;
     color: var(--white);
-    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
     border: none;
     border-radius: 100px;
     cursor: pointer;
@@ -1984,7 +2025,7 @@ body {
 
 /* Your Position Card */
 .your-position-card {
-    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
     border-radius: var(--radius-lg);
     padding: 24px;
     display: flex;
@@ -2217,18 +2258,18 @@ body {
 }
 
 .verdict-card.above {
-    border-left-color: #f0b800;
-    background: linear-gradient(135deg, rgba(240, 184, 0, 0.08) 0%, var(--white) 100%);
+    border-left-color: var(--accent-coral);
+    background: linear-gradient(135deg, var(--accent-coral-light) 0%, var(--white) 100%);
 }
 
 .verdict-card.below {
-    border-left-color: var(--accent-coral);
-    background: linear-gradient(135deg, rgba(244, 99, 77, 0.08) 0%, var(--white) 100%);
+    border-left-color: var(--accent-coral-start);
+    background: linear-gradient(135deg, rgba(255, 163, 72, 0.1) 0%, var(--white) 100%);
 }
 
 .verdict-card.competitive {
-    border-left-color: var(--accent-sage);
-    background: linear-gradient(135deg, rgba(122, 196, 122, 0.08) 0%, var(--white) 100%);
+    border-left-color: var(--accent-teal);
+    background: linear-gradient(135deg, var(--accent-teal-light) 0%, var(--white) 100%);
 }
 
 .verdict-icon {
@@ -2627,22 +2668,22 @@ body {
     margin-bottom: 16px;
 }
 
-/* Prominent National Average Card (different color - blue/teal) */
+/* Prominent National Average Card (uses brand teal accent) */
 .national-average-card.national-average-prominent {
-    background: linear-gradient(135deg, #ffffff 0%, #e8f4f8 100%);
-    border-left: 6px solid #4a9eb8;
+    background: linear-gradient(135deg, #ffffff 0%, rgba(34, 205, 181, 0.08) 100%);
+    border-left: 6px solid var(--accent-teal);
     padding: 24px;
-    box-shadow: 0 6px 28px rgba(74, 158, 184, 0.12);
+    box-shadow: 0 6px 28px rgba(15, 139, 122, 0.1);
 }
 
 .national-average-prominent .nat-avg-label {
     font-size: 1rem;
-    color: #4a9eb8;
+    color: var(--accent-teal-start);
 }
 
 .national-average-prominent .nat-avg-value {
     font-size: 2rem;
-    background: linear-gradient(135deg, #4a9eb8 0%, #6bbcd4 100%);
+    background: linear-gradient(135deg, var(--accent-teal-start) 0%, var(--accent-teal-end) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -2681,7 +2722,7 @@ body {
 }
 
 .toggle-btn.active {
-    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
     color: var(--white);
     border-color: transparent;
     box-shadow: 0 2px 8px var(--primary-glow);
@@ -2743,7 +2784,7 @@ body {
 
 .state-average-prominent .nat-avg-value {
     font-size: 2rem;
-    background: linear-gradient(135deg, var(--primary) 0%, #8b7bff 100%);
+    background: linear-gradient(135deg, var(--primary-start) 0%, var(--primary-end) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
